@@ -1,0 +1,39 @@
+{
+  "model_type": "RandomForestClassifier",
+  "category": "generation_mechanism",
+  "category_full_name": "generation_mechanism",
+  "n_features": 1575,
+  "n_classes": 3,
+  "classes": [
+    "Combustion",
+    "Microbial",
+    "Volatilization"
+  ],
+  "n_train_samples": 2020,
+  "n_test_samples": 510,
+  "train_accuracy": 0.9930693069306931,
+  "test_accuracy": 0.9745098039215686,
+  "cv_mean": 0.8148514851485148,
+  "cv_std": 0.0973423937119244,
+  "hyperparameters": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "class_weight": null,
+    "criterion": "gini",
+    "max_depth": null,
+    "max_features": "sqrt",
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 5,
+    "min_samples_split": 5,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 250,
+    "n_jobs": 1,
+    "oob_score": false,
+    "random_state": 42,
+    "verbose": 0,
+    "warm_start": false
+  }
+}

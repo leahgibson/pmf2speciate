@@ -1,0 +1,21 @@
+,precision,recall,f1-score,support
+"Adhesives, Sealants, Polish, Wax, Coatings",0.6666666666666666,0.8,0.7272727272727273,10.0
+Crude Oil Production,0.8333333333333334,1.0,0.9090909090909091,10.0
+Diesel Headspace Vapor,1.0,1.0,1.0,10.0
+Gasoline,0.9090909090909091,1.0,0.9523809523809523,10.0
+Gasoline Headspace Vapor,1.0,0.9,0.9473684210526315,10.0
+Gasoline Vehicle - Diurnal Evaporative,0.9,0.9,0.9,10.0
+Gasoline Vehicle - Evaporative Emissions,1.0,1.0,1.0,10.0
+Gasoline Vehicle - Hot Soak,0.8888888888888888,0.8,0.8421052631578947,10.0
+"Oil and Gas Production - Composite Profile – Raw Gas, Gas Well",0.6923076923076923,0.9,0.782608695652174,10.0
+"Oil and Gas Production - Composite Profile – Raw Gas, Oil Well",0.6666666666666666,0.6,0.631578947368421,10.0
+Oil and Gas Production - Condensate Tank Vent Gas,0.5555555555555556,0.5,0.5263157894736842,10.0
+Oil and Gas Production - Flash Gas,0.8,0.4,0.5333333333333333,10.0
+Oil and Gas Production - Fugitives,0.7692307692307693,1.0,0.8695652173913043,10.0
+Oil and Gas Production - Glycol Dehydrator,0.8333333333333334,1.0,0.9090909090909091,10.0
+Oil and Gas Production - Oil Tank,0.5384615384615384,0.7,0.6086956521739131,10.0
+Pesticides and Insecticide,0.8333333333333334,0.5,0.625,10.0
+Refinery and Storage,1.0,0.7,0.8235294117647058,10.0
+accuracy,0.8058823529411765,0.8058823529411765,0.8058823529411765,0.8058823529411765
+macro avg,0.8168746286393346,0.8058823529411764,0.7992903664237389,170.0
+weighted avg,0.8168746286393345,0.8058823529411765,0.7992903664237387,170.0

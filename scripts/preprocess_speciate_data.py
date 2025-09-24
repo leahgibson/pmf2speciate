@@ -28,6 +28,7 @@ where missing values are explicitly set to 0 rather than NaN, making it suitable
 """
 
 import pandas as pd
+import pickle
 
 from profile_grouper import id_profiles
 
@@ -43,9 +44,12 @@ species_grouped = species.groupby("PROFILE_CODE")
 species_cas_lookup = dict(
     zip(species_properties["SPECIES_ID"], species_properties["CAS"])
 )
-species_name_lookup = dict(
-    zip(species_properties["SPECIES_ID"], species_properties["SPECIES_NAME"])
-)
+
+with open("./src/pmf2speciate/data/id_lookup.pkl", "rb") as f:
+    species_name_lookup = pickle.load(f)
+
+cas_nums = list(species_name_lookup.keys())
+
 
 generatioin_mechanism_lookup = dict(
     zip(profiles["PROFILE_CODE"], profiles["CATEGORY_LEVEL_1_Generation_Mechanism"])
@@ -77,6 +81,11 @@ for code, categories in profile_map.items():
         profiles_to_remove.add(code)
         continue
 
+    # Filter out results where the species id is not reported
+    if len(profile["SPECIES_ID"].values) == 0:
+        profiles_to_remove.add(code)
+        continue
+
     weights = dict(
         zip(profile["SPECIES_ID"].map(species_name_lookup), profile["WEIGHT_PERCENT"])
     )
@@ -94,17 +103,22 @@ for code, categories in profile_map.items():
     )
     uncerts["code"] = code
     uncertainty_df = pd.DataFrame(uncerts, index=[0])
+    # uncertainty_df.columns = uncertainty_df.columns.astype(str)
     uncertainty_dfs.append(uncertainty_df)
 
 print(f"Removed {len(profiles_to_remove)} profiles that did not meat criteria.")
 print(f"Remaining profiles: {len(profile_dfs)}")
 
 all_profiles = pd.concat(profile_dfs, ignore_index=True).fillna(0)
+all_profiles = all_profiles.loc[:, (all_profiles != 0).any(axis=0)]
 all_profiles.to_parquet(
     "./src/pmf2speciate/data/profile_compounds.parquet", compression="snappy"
 )
+categorical_columns = ["generation_mechanism", "source"]
+cols = [col for col in all_profiles.columns if col not in categorical_columns]
 
 all_uncertainties = pd.concat(uncertainty_dfs, ignore_index=True).fillna(0)
+all_uncertainties = all_uncertainties[cols]
 all_uncertainties.to_parquet(
     "./data/processed/uncertainty.parquet", compression="snappy"
 )
