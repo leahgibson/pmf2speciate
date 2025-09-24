@@ -37,7 +37,7 @@ uncert_names = [col for col in uncertainties.columns if col not in categorical_c
 
 # Map species names to CAS numbers
 species_properties = pd.read_pickle("./data/raw/species_properties.pkl")
-with open("./src/pmf2speciate/data/species_lookup.pkl", "rb") as f:
+with open("./data/processed/species_lookup.pkl", "rb") as f:
     cas_map = pickle.load(f)
 cas_cols = [cas_map[name] for name in species_names]
 
