@@ -20,7 +20,7 @@ PMF analysis decomposes ambient air pollution data into factor profiles, but ide
 Since this package is not yet on PyPI, you can install it directly from the GitHub repository. This is the simplest way for a user to get started with the package and its dependencies.
 
 ```
-pip install git+[https://github.com/leahgibson/pmf2speciate.git](https://github.com/leahgibson/pmf2speciate.git)
+pip install git+https://github.com/leahgibson/pmf2speciate.git
 ```
 
 ## Quick Start
