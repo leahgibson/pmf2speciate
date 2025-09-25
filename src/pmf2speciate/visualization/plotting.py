@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+from pathlib import Path
 
 
 def plot_profiles(generation_mechanism):
@@ -16,7 +17,8 @@ def plot_profiles(generation_mechanism):
         Interactive plot with dropdown menu for source selection
     """
 
-    df = pd.read_parquet("./src/pmf2speciate/data/profile_compounds.parquet")
+    filepath = Path(__file__).parent.parent / "data" / "profile_compounds.parquet"
+    df = pd.read_parquet(filepath)
 
     valid_mechanisms = df["generation_mechanism"].unique()
     if generation_mechanism not in valid_mechanisms:
@@ -60,7 +62,8 @@ def plot_profiles(generation_mechanism):
 
         # Scatter plot traces for individual profiles
         for _, profile in source_data.iterrows():
-            profile_values = profile[species_cols].replace(0, np.nan).dropna()
+            profile_values = profile[species_cols][profile[species_cols] != 0]
+            # profile_values = profile[species_cols].replace(0, np.nan).dropna()
 
             fig.add_trace(
                 go.Scatter(
@@ -102,6 +105,3 @@ def plot_profiles(generation_mechanism):
         showlegend=True,
     )
     fig.show()
-
-
-plot_profiles("Dust")

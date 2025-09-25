@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=70.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pmf2speciate"
+version = "0.1.0"
+description = "Classify PMF factor profiles to EPA SPECIATE emission sources"
+authors = [{name = "Leah D Gibson", email = "leah.d.gibson98@gmail.com"}]
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research", 
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+]
+license = { file = "LICENSE" }
+dependencies = [
+    "pandas>=2.3.0",
+    "numpy>=2.3.0",
+    "scikit-learn>=1.0.0", 
+    "plotly>=6.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+"pytest",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pmf2speciate = ["data/*.parquet", "models/*.pkl", "models/*.json", "models/*.csv", "models/*.png"]
