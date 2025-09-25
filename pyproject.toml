@@ -20,9 +20,9 @@ classifiers = [
 license = { file = "LICENSE" }
 dependencies = [
     "pandas>=2.3.0",
-    "numpy>=2.3.0",
+    "numpy>=2.2.0",
     "scikit-learn>=1.0.0", 
-    "plotly>=6.3.0",
+    "plotly>=6.2.0",
 ]
 
 [project.optional-dependencies]
