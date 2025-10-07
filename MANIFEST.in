@@ -1,4 +1,4 @@
 include README.md
 include requirements.txt
-recursive-include src/pmf2speciate/data *.parquet
+recursive-include src/pmf2speciate/data *.parquet *.pkl
 recursive-include src/pmf2speciate/models *.pkl *.json *.csv *.png
