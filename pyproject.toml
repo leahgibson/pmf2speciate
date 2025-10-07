@@ -23,6 +23,8 @@ dependencies = [
     "numpy>=2.2.0",
     "scikit-learn>=1.0.0", 
     "plotly>=6.1.0",
+    "pyarrow>=21.0.0",
+    "fastparquet>=2024.11.0"
 ]
 
 [project.optional-dependencies]
