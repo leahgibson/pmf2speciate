@@ -146,6 +146,7 @@ def plot_factor(profile, generation_mechanism, source):
     df = df[df["source"] == source]
     df = df.drop(columns=["source", "generation_mechanism", "code"])
     avg_df = df.replace(0, np.nan).mean()
+    avg_df = (avg_df / avg_df.sum()) * 100  # renormalize
     avg_profile = avg_df.to_dict()
 
     filepath = Path(__file__).parent.parent / "data" / "cas_lookup.pkl"
