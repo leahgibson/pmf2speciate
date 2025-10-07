@@ -1,5 +1,5 @@
 # src/pmf2speciate/__init__.py
 from .classifier import SourceClassifier
-from .visualization.plotting import plot_profiles
+from .visualization.plotting import plot_profiles, plot_factor
 
 __all__ = ["SourceClassifier", "plot_profiles", "plot_factor"]
