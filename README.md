@@ -52,7 +52,7 @@ if result["specific_source"]:
 
  ### Basic Usage - Source Visualization
 
- It is possibly to easily visualize the source profiles categorized by generation mechanism.
+ It is possible to easily visualize the source profiles categorized by generation mechanism.
 
  ```python
 from pmf2speciate import plot_profiles
@@ -60,6 +60,13 @@ from pmf2speciate import plot_profiles
 plot_profiles("Combustion")
 plot_profiles("Microbial")
 plot_profiles("Volatilization")
+ ```
+
+ Once a source has been identified, the user's factor profile can be visualized against the average profile for that source (or any generation mechanism and source they specify).
+ ```python
+ from pmf2speciate import plot_factor
+
+ plot_factor(factor_profile, result["generation_mechanism"], result["specific_source"])
  ```
 
 ## Model Architecture
