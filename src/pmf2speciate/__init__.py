@@ -2,4 +2,4 @@
 from .classifier import SourceClassifier
 from .visualization.plotting import plot_profiles
 
-__all__ = ["SourceClassifier", "plot_profiles"]
+__all__ = ["SourceClassifier", "plot_profiles", "plot_factor"]

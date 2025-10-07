@@ -108,7 +108,7 @@ def plot_profiles(generation_mechanism):
     fig.show()
 
 
-def visualize_factor(profile, generation_mechanism, source):
+def plot_factor(profile, generation_mechanism, source):
     """
     Plot factor profile compared to source profile.
 
