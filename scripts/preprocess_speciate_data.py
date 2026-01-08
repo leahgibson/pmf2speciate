@@ -2,7 +2,7 @@
 Data preperation for model training.
 
 Transforms profile-based species data into a standardized format where:
-- Each row represents a unique chemical profile (identified by PROFILE_CODE) and classified by "Generation Mechanism" and "Source"
+- Each row represents a unique chemical profile (identified by PROFILE_CODE) and classified by "Generation Mechanism", "Source", and "Type" (PM or GAS)
 - Each column represents a specific chemical compound
 - Values represent weight percentages and uncertainty percentages for each compound in each profile
 
@@ -12,6 +12,7 @@ Cleaning includes:
 - If a profile has a species contributing > 100%, it is removed
 - If sum of species is < 95%, profile is removed
 - Remove misc category
+- Only using profile if its PROFILE_TYPE is PM or GAS
 
 Input files (expected in ./data/raw/):
 - profiles.pkl: Contains profile metadata and identifiers
@@ -62,12 +63,17 @@ profile_map = id_profiles(
 
 profile_total_lookup = dict(zip(profiles["PROFILE_CODE"], profiles["TOTAL"]))
 
+profile_type_lookup = dict(zip(profiles["PROFILE_CODE"], profiles["PROFILE_TYPE"]))
+
 profile_dfs = []
 uncertainty_dfs = []
-profiles_to_remove = set()  # profiles with 100% single species contribution
+profiles_to_remove = set()
 
 for code, categories in profile_map.items():
     profile = species_grouped.get_group(code)
+
+    # Remove profiles rows that are not included in contribution sum
+    profile = profile[profile["INCLUDE_IN_SUM"] == "Yes"]
 
     # Filter out results where the compound is unknowns
     valid_mask = profile["SPECIES_ID"].map(species_cas_lookup).notna()
@@ -78,6 +84,10 @@ for code, categories in profile_map.items():
         continue
 
     if profile_total_lookup[code] < 90:
+        profiles_to_remove.add(code)
+        continue
+
+    if profile_type_lookup[code] not in ["PM", "GAS"]:
         profiles_to_remove.add(code)
         continue
 
@@ -92,6 +102,7 @@ for code, categories in profile_map.items():
     weights["code"] = code
     weights["source"] = categories[0]
     weights["generation_mechanism"] = categories[1]
+    weights["type"] = profile_type_lookup[code]
     profile_df = pd.DataFrame(weights, index=[0])
     profile_dfs.append(profile_df)
 
@@ -114,7 +125,7 @@ all_profiles = all_profiles.loc[:, (all_profiles != 0).any(axis=0)]
 all_profiles.to_parquet(
     "./src/pmf2speciate/data/profile_compounds.parquet", compression="snappy"
 )
-categorical_columns = ["generation_mechanism", "source"]
+categorical_columns = ["generation_mechanism", "source", "type"]
 cols = [col for col in all_profiles.columns if col not in categorical_columns]
 
 all_uncertainties = pd.concat(uncertainty_dfs, ignore_index=True).fillna(0)
