@@ -113,6 +113,7 @@ for code, categories in profile_map.items():
         )
     )
     uncerts["code"] = code
+    uncerts["type"] = profile_type_lookup[code]
     uncertainty_df = pd.DataFrame(uncerts, index=[0])
     # uncertainty_df.columns = uncertainty_df.columns.astype(str)
     uncertainty_dfs.append(uncertainty_df)
@@ -122,14 +123,32 @@ print(f"Remaining profiles: {len(profile_dfs)}")
 
 all_profiles = pd.concat(profile_dfs, ignore_index=True).fillna(0)
 all_profiles = all_profiles.loc[:, (all_profiles != 0).any(axis=0)]
-all_profiles.to_parquet(
-    "./src/pmf2speciate/data/profile_compounds.parquet", compression="snappy"
+gas_profiles = all_profiles[all_profiles["type"] == "GAS"]
+pm_profiles = all_profiles[all_profiles["type"] == "PM"]
+
+gas_profiles = gas_profiles.drop(columns="type")
+pm_profiles = pm_profiles.drop(columns="type")
+
+gas_profiles.to_parquet(
+    "./src/pmf2speciate/data/gas_profile_compounds.parquet", compression="snappy"
 )
+pm_profiles.to_parquet(
+    "./src/pmf2speciate/data/pm_profile_compounds.parquet", compression="snappy"
+)
+
 categorical_columns = ["generation_mechanism", "source", "type"]
 cols = [col for col in all_profiles.columns if col not in categorical_columns]
 
 all_uncertainties = pd.concat(uncertainty_dfs, ignore_index=True).fillna(0)
-all_uncertainties = all_uncertainties[cols]
-all_uncertainties.to_parquet(
-    "./data/processed/uncertainty.parquet", compression="snappy"
+gas_uncertainties = all_uncertainties[all_uncertainties["type"] == "GAS"]
+pm_uncertainties = all_uncertainties[all_uncertainties["type"] == "PM"]
+
+gas_uncertainties = gas_uncertainties[cols]
+pm_uncertainties = pm_uncertainties[cols]
+
+gas_uncertainties.to_parquet(
+    "./data/processed/gas_uncertainty.parquet", compression="snappy"
+)
+pm_uncertainties.to_parquet(
+    "./data/processed/pm_uncertainty.parquet", compression="snappy"
 )
