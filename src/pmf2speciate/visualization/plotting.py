@@ -5,20 +5,29 @@ from pathlib import Path
 import pickle
 
 
-def plot_profiles(generation_mechanism):
+def plot_profiles(generation_mechanism, type):
     """
     Plot SPECIATE profiles for a given generation mechanism with dropdown to select source.
 
     Parameters:
     generation_mechanism: str
         The generation mechanism to filter profiles by
+    type: str
+        Type of profile, either GAS or PM
 
     Returns:
     plotly.graph_objects.Figure
         Interactive plot with dropdown menu for source selection
     """
 
-    filepath = Path(__file__).parent.parent / "data" / "profile_compounds.parquet"
+    if type not in ["GAS", "PM"]:
+        raise KeyError(f"{type} is not a valid type. Pick 'GAS' or 'PM'.")
+
+    type = type.lower()
+
+    filepath = (
+        Path(__file__).parent.parent / "data" / f"{type}_profile_compounds.parquet"
+    )
     df = pd.read_parquet(filepath)
 
     valid_mechanisms = df["generation_mechanism"].unique()
