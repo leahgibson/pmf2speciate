@@ -21,7 +21,7 @@ def test_plotting():
     without raising an exception.
     """
     try:
-        plot_profiles("Combustion")
+        plot_profiles("Combustion", "PM")
     except Exception as e:
         pytest.fail(f"plot_profiles failed with exception: {e}")
 
